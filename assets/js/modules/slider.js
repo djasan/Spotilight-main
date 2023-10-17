@@ -32,12 +32,13 @@ const slider = (status = "init") => {
           coverUrl + catalogue[currentTrack].cover;
         document.querySelector("#imgA").classList.add("transSlider");
         document.querySelector("#imgA").classList.add("slideLeft");
+
         setTimeout(() => {
           document.querySelector("#imgA").src =
             coverUrl + catalogue[currentTrack].cover;
           document.querySelector("#imgA").classList.remove("transSlider");
           document.querySelector("#imgA").classList.remove("slideLeft");
-        },400);
+        },500);
       };
 
     switch (status) {
@@ -62,5 +63,4 @@ const slider = (status = "init") => {
 };
 
 export { slider };
-
 
