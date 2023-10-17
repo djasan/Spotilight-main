@@ -19,6 +19,8 @@ const initSlider = () => {
 
 }
 
+
+
 const slider = (status = "init") => {
     console.log("initialisation du slider");
     /* console.dir(catalogue);
