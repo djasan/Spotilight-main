@@ -2,7 +2,7 @@ const catalogue = [
 
     {
 
-        titre: "gouge axay",
+        titre: "gouge away",
         artiste: "pixies",
         genre: ["rock alternatif"],
         année: 1989,

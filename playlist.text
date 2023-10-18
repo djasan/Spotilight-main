@@ -1,0 +1,31 @@
+// Importez le catalogue de musique depuis le module "catalogue.js"
+import { catalogueDeMusique } from './module/catalogue.js';
+
+// Sélectionnez les éléments HTML nécessaires à l'affichage de la playlist
+const playlistContainer = document.getElementById('playlist-container');
+const audioPlayer = document.getElementById('audio-player');
+
+// Fonction pour afficher la playlist
+function afficherPlaylist() {
+    // Parcourez le catalogue de musique et créez des éléments pour chaque morceau
+    catalogueDeMusique.forEach((morceau, index) => {
+        const morceauElement = document.createElement('div');
+        morceauElement.classList.add('playlist-item');
+        morceauElement.innerHTML = `
+            <img src="${morceau.imageCouverture}" alt="${morceau.titre} - ${morceau.artiste}">
+            <p>${morceau.titre} - ${morceau.artiste}</p>
+        `;
+
+        // Ajoutez un gestionnaire d'événement pour la lecture audio au clic
+        morceauElement.addEventListener('click', () => {
+            audioPlayer.src = morceau.fichierAudio;
+            audioPlayer.play();
+        });
+
+        // Ajoutez l'élément à la playlist
+        playlistContainer.appendChild(morceauElement);
+    });
+}
+
+// Appelez la fonction pour afficher la playlist
+afficherPlaylist();
