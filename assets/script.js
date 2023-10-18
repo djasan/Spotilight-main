@@ -1,6 +1,6 @@
-import { catalogue } from "./modules/catalogue.js";
-import { slider } from "./modules/slider.js";
-import { audio } from "./modules/audio.js";
+import { catalogue } from "./js/catalogue.js";
+import { slider } from "./js/slider.js";
+import { audio } from "./js/audio.js";
 import { playList } from "./modules/playlist.js";
 //console.dir(catalogue);
 
