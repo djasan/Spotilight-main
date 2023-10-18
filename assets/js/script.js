@@ -1,82 +1,81 @@
-const sliderHTML = document.querySelector("#slider");
-const coverUrl = "./assets/img/cover/";
+import { catalogue } from "./modules/catalogue.js";
+import { slider } from "./modules/slider.js";
+import { audio } from "./modules/audio.js";
+import { playList } from "./modules/playlist.js";
+//console.dir(catalogue);
 
-const initSlider = () => {
-    const coverSlider = document.createElement("img");
-    coverSlider.src = coverUrl + catalogue[currentTrack].cover;
-    coverSlider.id = "coverSlider";
-    sliderHTML.innerHTML = ''; // Supprimez le contenu précédent du slider
-    sliderHTML.append(coverSlider);
 
-    const imgA = document.createElement("img");
-    imgA.src = coverUrl + catalogue[currentTrack].cover;
-    imgA.id = "imgA";
-    sliderHTML.append(imgA);
-}
-
-const nextSlider = () => {
-    document.querySelector("#imgA").style.transform = "translateX(-100%)"; // Effectue une translation vers la gauche
-    setTimeout(() => {
-        document.querySelector("#imgA").src = coverUrl + catalogue[currentTrack].cover;
-        document.querySelector("#imgA").style.transform = "translateX(0)"; // Remet l'image à sa position d'origine
-    }, 400);
-};
-
-// Mettez à jour votre fonction slider pour qu'elle appelle nextSlider lorsque vous passez à la piste suivante
-const slider = (status = "init") => {
-    console.log("Initialisation du slider");
-    switch (status) {
-        case "init":
-            initSlider();
-            break;
-        case "next":
-            nextSlider();
-            break;
-        case "prev":
-            // Mettez en place la logique pour la transition précédente si nécessaire
-            break;
-        default:
-            break;
+const prevButton = document.querySelector("#prev");
+const nextButton = document.querySelector("#next");
+const playPause = document.querySelector("#play-pause");
+// globalThis permet de partager une variable ou une fonction
+// avec tous mes modules mais aussi elements de mon script;
+globalThis.track = null;
+globalThis.catalogue = catalogue;
+globalThis.currentTrack = 0;
+globalThis.isPlaying = false;
+// fonction chargée de gérer l'etat de mon bouton Play/Pause
+const statusBPP = ()=>{
+    if (!isPlaying) {
+        playPause.textContent = "Play";
+    } else {
+        playPause.textContent = "Pause";
     }
 }
 
-// Gestion du bouton "next"
+// click sur le bouton next
 nextButton.addEventListener("click", () => {
-  if (currentTrack < catalogue.length - 1) {
-    currentTrack++;
-  } else {
-    currentTrack = 0;
-  }
-  slider("next");
-  audio("pause");
-  audio();//"init";
-  audio("play");
-  console.log(isPlaying);
-  isPlaying = true;
-  statusButtonPlayPause();
-
-});
-// Gestion du bouton "playPause"
-playPause.addEventListener("click", () => {
-  if (!isPlaying) {
-    isPlaying = true;
-    audio("play");
-  } else {
-    isPlaying = false;
-  
+    if (currentTrack < catalogue.length - 1) {
+        currentTrack++;
+    } else {
+        currentTrack = 0;
+    }
+    slider("next");
+    // j'arrete la lecture en cours
     audio("pause");
-
-
-  }
-  statusButtonPlayPause();
-  // isPlaying = !isPlaying
-});
-
-
-
-
-
-// Initialisation de la page
+    // je reinitialise track avec la nouvelle valeur de currentTrack
+    audio();//init
+    // je relance la lecture
+    audio("play");
+    // je viens de lancer une nouvelle lecture : isPlaying doit passer à true
+    console.log(isPlaying);
+    isPlaying = true;
+    statusBPP();
+    
+})
+// idem pour previous
+prevButton.addEventListener("click", () => {
+    if (currentTrack > 0) {
+        currentTrack--;
+    } else {
+        currentTrack = catalogue.length - 1;
+    }
+    slider("prev");
+    // j'arrete la lecture en cours
+    audio("pause");
+    // je reinitialise track avec la nouvelle valeur de currentTrack
+    audio();//init
+    // je relance la lecture
+    audio("play");
+    // je viens de lancer une nouvelle lecture : isPlaying doit passer à true
+    console.log(isPlaying);
+    isPlaying = true;
+    statusBPP();
+})
+// actions sur le bouton play-pause
+playPause.addEventListener("click", () => {
+    // ! veut dire inverse d'une boolean ex !isPlaying vaut false
+    if (!isPlaying/*  === false */) {
+        isPlaying = true;
+        audio("play");
+    } else {
+        isPlaying = false;
+        audio("pause");
+    }
+    statusBPP();
+    //isPlaying = !isPlaying;
+})
 slider();
 audio();
-
+// affichage de la playList
+playList();

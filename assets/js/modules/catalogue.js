@@ -141,7 +141,7 @@ const catalogue = [
         like: false
     }
 
-]
+];
 export {
 
     catalogue
